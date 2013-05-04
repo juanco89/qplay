@@ -25,3 +25,6 @@ build/
 .kdev4/
 Qplay.kdev4
 
+# Otros
+
+res/
