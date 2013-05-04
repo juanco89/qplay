@@ -1,15 +1,16 @@
-#include "Qplay.h"
+
+#include "Qplay.hpp"
 
 #include <QHBoxLayout>
 #include <QPushButton>
-
-#include <Phonon/MediaSource>
-#include <qcoreapplication.h>
-
 #include <QFileDialog>
+#include <QDesktopServices>
 
 Qplay::Qplay()
 {
+  player = new Player();
+  
+  // Componentes gráficos
   QWidget * wCentral = new QWidget(this);
   QHBoxLayout * layout = new QHBoxLayout(wCentral);
   
@@ -29,30 +30,21 @@ Qplay::Qplay()
 
 void Qplay::abrirMultimedia()
 {
-  QFileDialog * dialog = new QFileDialog(this);
-  dialog->open();
-  QString fichero = dialog->getOpenFileName();
-  qDebug() << fichero << endl ;
-  delete dialog;
+  QString fichero = QFileDialog::getOpenFileName( 
+	  this,
+	  "Abrir archivos de audio",
+	  QDesktopServices::storageLocation(QDesktopServices::HomeLocation),
+	  tr("MP3 (*.mp3)"));  
+  qDebug() << "Archivo seleccionado: " << fichero << endl;
   iniciarPlayer(fichero);
 }
 
 void Qplay::iniciarPlayer(const QString &fichero)
 {
-  if(!player)
-  {
-    player = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(fichero));
-  }
-  else 
-  {
-    player->stop();
-    player->setCurrentSource(Phonon::MediaSource(fichero));
-  }
-  player->play();
+  player->iniciarPlayer(fichero);
 }
 
 Qplay::~Qplay()
 {
   delete player;
 }
-

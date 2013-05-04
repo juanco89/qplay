@@ -1,5 +1,5 @@
 #include <QtGui/QApplication>
-#include "Qplay.h"
+#include "Qplay.hpp"
 
 
 int main(int argc, char** argv)

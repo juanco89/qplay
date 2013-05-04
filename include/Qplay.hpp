@@ -1,8 +1,9 @@
 #ifndef Qplay_H
 #define Qplay_H
 
+#include "Player.hpp"
+
 #include <QtGui/QMainWindow>
-#include <Phonon/MediaObject>
 
 class Qplay : public QMainWindow
 {
@@ -14,7 +15,7 @@ public:
 
 private:
     void iniciarPlayer(const QString &fichero);
-    Phonon::MediaObject * player;
+    Player * player;
     
 private slots:
   void abrirMultimedia();
