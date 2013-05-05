@@ -23,30 +23,27 @@ Player::Player() : QObject()
   player = 0;
 }
 
-void Player::iniciarPlayer(const QString &ruta)
+void Player::reproducir(const QString &ruta)
 {
   if(!player)
   {
+    // Se crea el media player si no está creado aún.
     player = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(ruta));
-    QObject::connect(player, SIGNAL(finished()), this, SLOT(siguiente()));
   }
-  else 
+  else
   {
+    // Si existe, se detiene la actual reproducción
     player->stop();
+    // Se asigna una nueva fuente (canción)
     player->setCurrentSource(Phonon::MediaSource(ruta));
   }
+  // Inicia la reproducción de la actual fuente
   player->play();
 }
 
-
-/** SLOTS **/
-
-void Player::siguiente()
-{
-  qDebug() << "Finalizó la reproducción" << endl;
-}
-
-/** Destructor  */
+/** 
+ * \Brief Destructor.
+ */
 Player::~Player()
 {
   delete player;

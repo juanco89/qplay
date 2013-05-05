@@ -29,13 +29,11 @@ class Player : QObject
 public:
     Player();
     virtual ~Player();
-    void iniciarPlayer(const QString &ruta);
+    void reproducir(const QString &ruta);
 
 private:
     Phonon::MediaObject * player;
-    
-private slots:
-    void siguiente();
+
 };
 
 #endif
