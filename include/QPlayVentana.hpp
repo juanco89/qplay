@@ -16,16 +16,32 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************/
 
-#include <QtGui/QApplication>
-#include "QPlayVentana.hpp"
+#ifndef QPlayVentana_H
+#define QPlayVentana_H
 
+#include "Player.hpp"
 
-int main(int argc, char** argv)
+#include <QtGui/QMainWindow>
+#include <QListView>
+
+class QPlayVentana : public QMainWindow
 {
-    QApplication app(argc, argv);
-    app.setApplicationName("Qplay");
-    QPlayVentana v;
-    v.setWindowTitle("Qplay");
-    v.show();
-    return app.exec();
-}
+Q_OBJECT
+
+public:
+    explicit QPlayVentana();
+    virtual ~QPlayVentana();
+
+private:
+    void inicializarComponentes();
+    void iniciarPlayer(const QString &fichero);
+    
+    QListView *listaMusical;
+    Player * player;
+    
+private slots:
+  void buscarArchivos();
+  
+};
+
+#endif // QPlayVentana
