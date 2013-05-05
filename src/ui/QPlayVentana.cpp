@@ -59,31 +59,54 @@ void QPlayVentana::inicializarComponentes()
   lyBotones->addWidget(bSalir);
   lyBotones->addWidget(bAbrir);
   
-  listaMusical = new QListView(wCentral);
+  tablaMusical = new QTableWidget(wCentral);
   
-  lyPrincipal->addWidget(listaMusical, 1);
+  QStringList encabezados;
+  encabezados.append("Canción");
+  tablaMusical->setHorizontalHeaderLabels(encabezados);
+  tablaMusical->setColumnCount(encabezados.size());
+  QObject::connect(tablaMusical, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(reproducirSeleccion(int,int)));
+  
+  lyPrincipal->addWidget(tablaMusical, 1);
   lyPrincipal->addLayout(lyBotones);
   
   wCentral->setLayout(lyPrincipal);
   setCentralWidget(wCentral);
 }
 
+/***  SLOTS ****/
+
 void QPlayVentana::buscarArchivos()
 {
-  QString fichero = QFileDialog::getOpenFileName( 
+  QStringList ficheros = QFileDialog::getOpenFileNames( 
 	  this,
 	  "Abrir archivos de audio",
 	  QDesktopServices::storageLocation(QDesktopServices::HomeLocation),
-	  tr("MP3 (*.mp3)"));  
-  qDebug() << "Archivo seleccionado: " << fichero << endl;
-  iniciarPlayer(fichero);
+	  tr("MP3 (*.mp3)"));
+
+  int numFilas = ficheros.size();
+  tablaMusical->setRowCount(numFilas);
+  QTableWidgetItem *nuevoItem;
+  for(int i = 0; i < numFilas; i++)
+  {
+    nuevoItem = new QTableWidgetItem(ficheros.at(i));	// Revisar
+    tablaMusical->setItem(i, 0, nuevoItem);
+  }
 }
 
-void QPlayVentana::iniciarPlayer(const QString &fichero)
+void QPlayVentana::reproducirSeleccion(int row, int col)
 {
-  player->iniciarPlayer(fichero);
+  QString ruta = tablaMusical->item(row, col)->text();
+  
+  qDebug() << ruta << endl;
+  
+  player->reproducir(ruta);
 }
 
+
+/**
+ * \Brief Destructor
+ */ 
 QPlayVentana::~QPlayVentana()
 {
   delete player;

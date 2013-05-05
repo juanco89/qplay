@@ -22,7 +22,7 @@
 #include "Player.hpp"
 
 #include <QtGui/QMainWindow>
-#include <QListView>
+#include <QTableWidget>
 
 class QPlayVentana : public QMainWindow
 {
@@ -34,13 +34,13 @@ public:
 
 private:
     void inicializarComponentes();
-    void iniciarPlayer(const QString &fichero);
     
-    QListView *listaMusical;
+    QTableWidget *tablaMusical;
     Player * player;
     
 private slots:
   void buscarArchivos();
+  void reproducirSeleccion(int row, int col);
   
 };
 
